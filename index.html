@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classes | Learning Portal</title>
+    <style>
+        :root {
+            --bg-main: #0c0a1c;
+            --bg-card: #141226;
+            --bg-nav: #181530;
+            --accent: #9d4edd;
+            --accent-glow: #e0aaff;
+            --text-main: #ffffff;
+            --text-muted: #8e8a9f;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Navigation Bar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--bg-nav);
+            padding: 15px 40px;
+            border-bottom: 2px solid rgba(157, 78, 221, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: var(--accent);
+            text-shadow: 0 0 10px var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-item {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: color 0.2s;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: var(--accent-glow);
+        }
+
+        /* Main Grid Container */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .search-container {
+            margin-bottom: 30px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 12px 20px;
+            background-color: var(--bg-card);
+            border: 2px solid rgba(157, 78, 221, 0.3);
+            border-radius: 30px;
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .search-bar:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(157, 78, 221, 0.4);
+        }
+
+        /* Game Grid */
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 20px;
+        }
+
+        .game-card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 8px 25px rgba(157, 78, 221, 0.3);
+        }
+
+        .thumbnail {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(135deg, #181530 0%, #241942 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            user-select: none;
+        }
+
+        .game-info {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .game-title {
+            font-size: 14px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Fully Embedded Overlay Screen */
+        #game-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            z-index: 10000;
+        }
+
+        .game-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .game-bar {
+            height: 50px;
+            background-color: var(--bg-nav);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            border-bottom: 1px solid rgba(157, 78, 221, 0.3);
+        }
+
+        .game-bar h2 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: #ff3333;
+            color: white;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        .close-btn:hover {
+            background: #cc0000;
+        }
+
+        iframe {
+            flex-grow: 1;
+            width: 100%;
+            height: calc(100% - 50px);
+            border: none;
+            background-color: #000;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar Layout -->
+    <nav>
+        <div class="logo">Totally<span>Science</span></div>
+        <div class="nav-links">
+            <a href="#" class="nav-item active">Games</a>
+            <a href="#" class="nav-item">Apps</a>
+            <a href="#" class="nav-item">Settings</a>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <div class="search-container">
+            <input type="text" id="search" class="search-bar" placeholder="Search unblocked titles..." onkeyup="filterGames()">
+        </div>
+
+        <!-- Dynamic Game Layout Grid -->
+        <div class="game-grid" id="grid">
+            <!-- Items generated dynamically by script -->
+        </div>
+    </div>
+
+    <!-- Screen Embedded Iframe Container -->
+    <div id="game-overlay">
+        <div class="game-wrapper">
+            <div class="game-bar">
+                <h2 id="current-game-title">Loading Game...</h2>
+                <button class="close-btn" onclick="closeGame()">Exit Game</button>
+            </div>
+            <iframe id="game-frame" src="" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <script>
+        // Data Registry containing title, display icon, and embedded destination URLs
+        const gamesData = [
+            { title: "Slope", icon: "🌐", url: "https://slope-game.github.io/" },
+            { title: "Retro Bowl", icon: "🏈", url: "https://game316000912.poki.co/" },
+            { title: "Tetris", icon: "🧱", url: "https://chvin.github.io/react-tetris/" },
+            { title: "1v1.LOL", icon: "🎯", url: "https://1v1.lol/" },
+            { title: "Cookie Clicker", icon: "🍪", url: "https://orteil.dashnet.org/cookieclicker/" },
+            { title: "Tunnel Rush", icon: "🏃", url: "https://tunnel-rush.github.io/" },
+            { title: "Run 3", icon: "🌌", url: "https://run3.github.io/" },
+            { title: "Snow Rider 3D", icon: "🛷", url: "https://snow-rider3d.github.io/" },
+            { title: "Bitlife", icon: "💼", url: "https://bitlifeonline.github.io/" },
+            { title: "Drift Hunters", icon: "🏎️", url: "https://drift-hunters.github.io/" },
+            { title: "Geometry Dash", icon: "🔺", url: "https://geometry-dash.github.io/" },
+            { title: "Basketball Stars", icon: "🏀", url: "https://basketball-stars.github.io/" }
+        ];
+
+        const grid = document.getElementById('grid');
+
+        // Render card interfaces
+        function renderGames(list) {
+            grid.innerHTML = '';
+            list.forEach(game => {
+                const card = document.createElement('div');
+                card.className = 'game-card';
+                card.setAttribute('onclick', `openGame("${game.url}", "${game.title}")`);
+                card.innerHTML = `
+                    <div class="thumbnail">${game.icon}</div>
+                    <div class="game-info">
+                        <div class="game-title">${game.title}</div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Live Search Filtering Function
+        function filterGames() {
+            const query = document.getElementById('search').value.toLowerCase();
+            const filtered = gamesData.filter(game => game.title.toLowerCase().includes(query));
+            renderGames(filtered);
+        }
+
+        // Embedded Iframe Handler
+        function openGame(url, title) {
+            document.getElementById('current-game-title').innerText = title;
+            document.getElementById('game-frame').src = url;
+            document.getElementById('game-overlay').style.display = 'block';
+        }
+
+        function closeGame() {
+            document.getElementById('game-overlay').style.display = 'none';
+            document.getElementById('game-frame').src = '';
+        }
+
+        // Emergency Panic State Redirect System (Escape Key)
+        window.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.title = 'Google Docs';
+                let icon = document.querySelector("link[rel~='icon']") || document.createElement('link');
+                icon.rel = 'icon';
+                icon.href = 'https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico';
+                document.head.appendChild(icon);
+                window.location.replace('https://docs.google.com');
+            }
+        });
+
+        // Initialize display
+        renderGames(gamesData);
+    </script>
+</body>
+</html>
